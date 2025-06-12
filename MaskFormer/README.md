@@ -17,5 +17,3 @@ Pretrained Swin: https://github.com/SwinTransformer/storage/releases/download/v1
 Training:
 
 python train_net.py --config-file configs/climatenet/semantic/maskformer_Swin_p16_bs8_w10.yaml --num-gpus 1
-
-# AR Segmentation with ChannelVit

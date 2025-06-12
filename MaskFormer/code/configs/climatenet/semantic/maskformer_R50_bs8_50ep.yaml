@@ -1,0 +1,93 @@
+# MaskFormer config for Climatenet-based AR semantic segmentation
+
+MODEL:
+  META_ARCHITECTURE: "MaskFormer"
+  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+
+  PIXEL_MEAN: [1.5530, 0.2541, 100814.0726, 19.2185]   
+  PIXEL_STD: [8.2976, 6.2316, 1461.2256, 15.8173]
+
+  BACKBONE:
+    NAME: "build_resnet_backbone"
+
+  RESNETS:  # ✅ 추가
+    OUT_FEATURES: ["res2", "res3", "res4", "res5"]
+
+  SEM_SEG_HEAD:
+    NAME: "MaskFormerHead"
+    IN_FEATURES: ["res2", "res3", "res4", "res5"]
+    IGNORE_VALUE: 255
+    NUM_CLASSES: 2  # 0=background, 1=AR
+    CONVS_DIM: 256
+    MASK_DIM: 256
+    NORM: "GN"
+
+  MASK_FORMER:
+    TRANSFORMER_IN_FEATURE: "res5"
+    DEEP_SUPERVISION: True
+    NO_OBJECT_WEIGHT: 0.1
+    DICE_WEIGHT: 1.0
+    MASK_WEIGHT: 20.0
+    HIDDEN_DIM: 256
+    NUM_OBJECT_QUERIES: 100
+    NHEADS: 8
+    DROPOUT: 0.1
+    DIM_FEEDFORWARD: 2048
+    ENC_LAYERS: 0
+    DEC_LAYERS: 6
+    PRE_NORM: False
+
+INPUT:
+  DATASET_MAPPER_NAME: "netcdf_semantic"
+  FORMAT: "RGB"
+  ### PATCHES 이전
+  # MIN_SIZE_TRAIN: (768,)
+  # MAX_SIZE_TRAIN: 1152
+  # MIN_SIZE_TEST: 768
+  # MAX_SIZE_TEST: 1152
+  ### PATCHES 이후
+  MIN_SIZE_TRAIN: (192,)
+  MAX_SIZE_TRAIN: 192
+  MIN_SIZE_TEST: 192
+  MAX_SIZE_TEST: 192
+  SIZE_DIVISIBILITY: 32
+  CROP:
+    ENABLED: False
+
+DATASETS:
+  ### PATCHES 이전
+  # TRAIN: ("climatenet_train",)
+  ### PATCHES 이후
+  TRAIN: ("climatenet_full_train_patches",)
+  TEST: ("climatenet_full_test",)
+
+DATALOADER:
+  NUM_WORKERS: 4
+  FILTER_EMPTY_ANNOTATIONS: True
+
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.0001
+  MAX_ITER: 2000
+  CHECKPOINT_PERIOD: 100
+  WARMUP_ITERS: 100
+  LR_SCHEDULER_NAME: "WarmupPolyLR"
+  OPTIMIZER: "ADAMW"
+  BACKBONE_MULTIPLIER: 0.1
+  WEIGHT_DECAY: 0.05
+  WEIGHT_DECAY_EMBED: 0.0
+  WEIGHT_DECAY_NORM: 0.0
+  CLIP_GRADIENTS:
+    ENABLED: True
+    CLIP_TYPE: "full_model"
+    CLIP_VALUE: 1.0
+    NORM_TYPE: 2.0
+
+TEST:
+  EVAL_PERIOD: 1
+  AUG:
+    ENABLED: False
+
+OUTPUT_DIR: "./output/p16b8w10"
+
+VERSION: 2

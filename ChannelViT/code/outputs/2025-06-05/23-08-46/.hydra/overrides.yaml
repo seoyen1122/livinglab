@@ -1,0 +1,6 @@
+- meta_arch/backbone=channelvit_small
+- meta_arch.backbone.args.in_chans=4
+- meta_arch.target=label
+- meta_arch.num_classes=2
+- trainer.max_epochs=100
+- trainer.devices=2

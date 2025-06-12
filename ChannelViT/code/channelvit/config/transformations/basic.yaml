@@ -1,0 +1,6 @@
+#_target_: channelvit.transformation.build_transforms
+#is_train: true
+#args: {}
+
+name: basic
+args: {}

@@ -1,0 +1,3 @@
+- checkpoint=/home/aix23606/limseoyen/new/ChannelViT/snapshots/train1.ckpt
+- val_data_dict=ar_val
+- +val_data_dict.ar_val=@channelvit/config/data/ar_val.yaml

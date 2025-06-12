@@ -1,0 +1,17 @@
+_target_: channelvit.data.ARDataset
+name: ar_tmq_u850_v850_psl
+root: /data0/aix23606/limseoyen/climatenet_txts
+split: train_patches
+is_train: true
+channels:
+  - PSL
+  - V850
+  - U850
+  - TMQ
+transform_cfg:
+  name: basic
+  args: {}
+loader:
+  batch_size: 8
+  shuffle: true
+  num_workers: 4

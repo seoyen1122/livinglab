@@ -1,0 +1,63 @@
+val_data_dict:
+  ar_val: 
+    _target_: channelvit.data.ARDataset
+    name: ARDataset
+    args:
+      root: /data0/aix23606/limseoyen/climatenet_txts
+      split: val_patches1
+      #is_train: false
+      channels:
+        - TMQ
+        - U850
+        - V850
+        - PSL
+      transform_cfg:
+        name: basic
+        args: {}
+
+    loader:
+      batch_size: 2
+      shuffle: false
+      num_workers: 4
+  
+test_data:
+  _target_: channelvit.data.ARDataset
+  name: ARDataset
+  root: /data0/aix23606/limseoyen/climatenet_txts
+  split: test    # <--- test split 이름에 맞게 수정!
+  channels:
+    - TMQ
+    - U850
+    - V850
+    - PSL
+  transform_cfg:
+    name: basic
+    args: {}
+  loader:
+    batch_size: 1
+    shuffle: false
+    num_workers: 4
+
+
+
+defaults:
+  - meta_arch: supervised
+  - data@train_data: ar
+  # - data@val_data_dict/ar_val: ar_val
+  - data@val_data_dict/ar_test: ar_test
+  - transformations@train_transformations: basic
+  - transformations@val_transformations: basic
+  - _self_
+
+trainer:
+  devices: 1
+  accelerator: "gpu"
+  max_epochs: 100
+  precision: 32
+  default_root_dir: "./snapshots"
+  accumulate_grad_batches: 1  # gradient accumulation
+
+# If checkpoint is specified, we will resume training from the checkpoint 
+checkpoint: null
+
+

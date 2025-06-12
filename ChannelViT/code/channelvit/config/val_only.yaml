@@ -1,0 +1,29 @@
+defaults:
+  - meta_arch: supervised
+  - transformations@val_transformations: basic
+  - _self_
+
+val_data_dict:
+  ar_val:
+    _target_: channelvit.data.ARDataset
+    name: ARDataset
+    args:
+      root: /data0/aix23606/limseoyen/climatenet_txts
+      split: val_patches1
+      channels:
+        - TMQ
+        - U850
+        - V850
+        - PSL
+    transform_cfg:
+        name: basic
+        args: {}
+
+
+
+    loader:
+      batch_size: 1
+      shuffle: false
+      num_workers: 4
+
+#checkpoint: /home/aix23606/limseoyen/new/ChannelViT/snapshots/train1.ckpt

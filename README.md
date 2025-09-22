@@ -1,4 +1,4 @@
-# LivingLab: AR Segmentation Projects
+# Transformer-Based Atmospheric River Segmentation Model from Climate Reanalysis Data
 
 This repository contains multiple projects related to Atmospheric River (AR) segmentation based on deep learning models.
 

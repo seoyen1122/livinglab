@@ -10,7 +10,7 @@ pip3 install -r requirements.txt
 ## 2. Usage 🚀
 First, clone our repository.
 ```
-git clone git@github.com:jjihwan/Voice-Cloning.git
+git clone git@github.com:seoyen1122/livinglab/ChannelViT.git
 ```
 
 ### 2.1. Dataset Preparation 🦄

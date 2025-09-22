@@ -30,4 +30,5 @@ mkdir -p dataset/channelvit
      -> test         //61 images ( ≈ 13%)
 * From original dataset, split train into train if the year is 2004 or before, else variance.
   
-2. 
+2. Data preprocessing
+
